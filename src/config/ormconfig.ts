@@ -1,5 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
+console.log(process.env.MYSQL_URL);
+
 export const ormConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: process.env.MYSQL_URL || '127.0.0.1',
@@ -10,7 +12,7 @@ export const ormConfig: TypeOrmModuleOptions = {
   // https://github.com/typeorm/typeorm/issues/682
 
   // https://github.com/nestjs/nest/issues/1138#issuecomment-425806220
-  entities: ['../**/**.entity{.ts,.js}'],
+  entities: ['dist/**/**.entity.{ts,js}'],
   // debug: true,
   // dropSchema: true,
   synchronize: true,

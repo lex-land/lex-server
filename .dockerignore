@@ -1,0 +1,17 @@
+.circleci
+.git
+.vscode
+.DS_Store
+.editorconfig
+.stylelintignore
+node_modules
+npm-debug.log
+README.md
+temp
+jest.setup.js
+nest-cli.json
+docker
+tests
+docs
+logo.png
+Dockerfile

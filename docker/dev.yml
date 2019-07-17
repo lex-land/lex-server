@@ -1,0 +1,60 @@
+version: '3.1'
+
+# 为了让两个服务的依赖关系更清晰，开发环境以以下这种方式进行划分
+services:
+  lex-server:
+    container_name: lex-server
+    image: node:latest
+    working_dir: /app
+    volumes:
+      - ../:/app
+    environment:
+      - MYSQL_URL=lex-mysql # links will maintain /etc/hosts, just use 'container_name'
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWD=123456
+      - MYSQL_DATABASE=Lex
+      - NODE_ENV=production
+      - PORT=3001
+      - SUNMI_ENV=master
+    command: npm run start:dev
+    ports:
+      - '3001:3001'
+    links:
+      - lex-mysql
+    depends_on:
+      - lex-mysql
+
+  lex-mysql:
+    image: mysql:5.6
+    container_name: lex-mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: '123456'
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: 'Lex'
+    volumes:
+      - ./temp/mysql:/var/lib/mysql
+    # 添加默认排序规则
+    # https://stackoverflow.com/questions/45729326/how-to-change-the-default-character-set-of-mysql-using-docker-compose
+    command:
+      [
+        'mysqld',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+        '--default-authentication-plugin=mysql_native_password',
+      ]
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: lex-phpmyadmin
+    ports:
+      - '8080:80'
+    environment:
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: '123456'
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: 'Lex'
+      PMA_HOST: lex-mysql
