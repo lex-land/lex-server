@@ -56,7 +56,7 @@ ERROR in /Users/briefguo/Public/www/lex/node_modules/react-use/lib/useAsyncRetry
 5:72 ',' expected.
 ```
 
-https://github.com/streamich/react-use/issues/270
+https://github.com/streamich/react-use/issues/270#issuecomment-495708860
 
 ```
 Error: EPERM: operation not permitted, scandir '/proc/1/map_files/2873000-2876000'
