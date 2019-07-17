@@ -1,0 +1,39 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - run: npx yarn
+      - run: npm run build
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: npm run docker:build
+      - run: npm run docker:push
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - '34:99:74:78:a0:a0:76:78:a5:88:f4:de:b4:f4:f3:2a'
+      - run:
+          name: Deploy Over SSH
+          command: |
+            ssh $SSH_USER@$SSH_HOST "docker pull lexland/lex-server:latest"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
