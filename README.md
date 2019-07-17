@@ -1,9 +1,9 @@
 <p align="center">
-  <a href="https://lex-land.online" target="blank"><img src="./public/images/logo.svg" width="150" alt="Lex Logo" /></a>
+  <a href="https://lex-land.online" target="blank"><img src="./logo.svg" width="150" alt="Lex Logo" /></a>
 </p>
 
 <p align="center">
-  <a href="https://circleci.com/gh/lex-land/lex" target="blank"><img src="https://circleci.com/gh/lex-land/lex.svg?style=svg" alt="CircleCI" /></a>
+  <a href="https://circleci.com/gh/lex-land/lex-server" target="blank"><img src="https://circleci.com/gh/lex-land/lex-server.svg?style=svg" alt="CircleCI" /></a>
 </p>
 
 ## Description
@@ -58,8 +58,8 @@ ERROR in /Users/briefguo/Public/www/lex/node_modules/react-use/lib/useAsyncRetry
 
 https://github.com/streamich/react-use/issues/270
 
-
 ```
 Error: EPERM: operation not permitted, scandir '/proc/1/map_files/2873000-2876000'
 ```
+
 https://stackoverflow.com/questions/55120476/nestjs-typeorm-cannot-connect-to-docker-mariadb
