@@ -10,9 +10,9 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/html:/usr/share/nginx/html
     links:
-      - lex-node
+      - lex-server
     depends_on:
-      - lex-node
+      - lex-server
     ports:
       - 80:80
       - 443:443
