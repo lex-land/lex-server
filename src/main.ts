@@ -34,7 +34,11 @@ async function bootstrap() {
 
   // 跨域安全
   app.enableCors({
-    origin: [/\/lex-land\.online$/, /\/lex-land\.io$/, /\/lex-land\.cloud$/],
+    origin: [
+      /https:\/\/lex-land\.online$/,
+      /https:\/\/lex-land\.io$/,
+      /https:\/\/lex-land\.cloud$/,
+    ],
   });
 
   const PORT = process.env.PORT || 3001;
