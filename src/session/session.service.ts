@@ -1,12 +1,12 @@
-import CONSTANTS from '@/src/config/constants';
 import { CacheService } from '@/src/cache/cache.service';
 import { Injectable } from '@nestjs/common';
 import { Jwt } from './interfaces/jwt.interface';
 import { JwtService } from '@nestjs/jwt';
+import { KEYOF_TOKEN } from '../common/environment';
 import { User } from '@/src/user/user.entity';
 import { UserService } from '@/src/user/user.service';
-import { ValidatorError } from '@/src/helpers/validation/error';
-import constants from '@/src/config/constants';
+import constants from '@/src/common/constants';
+import { createValidationError } from '@/src/common/createValidationError';
 
 @Injectable()
 export class SessionService {
@@ -20,7 +20,7 @@ export class SessionService {
     // 设置缓存
     this.setCacheUser(user);
     return {
-      [CONSTANTS.KEYOF_TOKEN]: this.jwtService.sign(
+      [KEYOF_TOKEN]: this.jwtService.sign(
         { email: user.email },
         { expiresIn: constants.TIME['1DAY'] },
       ),
@@ -40,12 +40,12 @@ export class SessionService {
       try {
         return this.userService.findOneByEmail(email, relations);
       } catch (error) {
-        return ValidatorError({
+        return createValidationError({
           email: 'user not found',
         });
       }
     } else {
-      return ValidatorError({
+      return createValidationError({
         email: 'token exprired',
       });
     }

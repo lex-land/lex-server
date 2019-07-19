@@ -1,16 +1,20 @@
 import * as bodyParser from 'body-parser';
+import { AccessControlAllowOrigin, localClient } from './common/cors';
 import { AppModule } from './app.module';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import constants from '@/src/common/constants';
+// import cookieParser from 'cookie-parser';
 // import csurf from 'csurf';
-import constants from '@/src/config/constants';
 import express from 'express';
 import helmet from 'helmet';
-import { join } from 'path';
-import { logger } from '@/src/core/logger';
+import { logger } from '@/src/common/logger';
 import rateLimit from 'express-rate-limit';
+
+const isProd = process.env.NODE_ENV === 'prodction';
+const PORT = process.env.PORT || 3001;
 
 async function bootstrap() {
   const server = express();
@@ -18,32 +22,33 @@ async function bootstrap() {
     AppModule,
     new ExpressAdapter(server),
   );
-  app.useGlobalPipes(new ValidationPipe());
-  app.useStaticAssets(join(__dirname, '..', 'public'));
+
   app.setGlobalPrefix('api');
-  app.use(bodyParser.json({ limit: '5mb' }));
-  app.use(bodyParser.urlencoded({ limit: '5mb', extended: false }));
+
+  // https://docs.nestjs.com/techniques/security
   app.use(helmet());
-  // app.use(csurf());
+  // app.use(cookieParser());
+  // https://github.com/expressjs/csurf#readme
+  // app.use(csurf({ cookie: true }));
   app.use(
     new rateLimit({
       windowMs: constants.TIME['15MINUES'], // 15 minutes
       max: 10000, // limit each IP to 100 requests per windowMs
     }),
   );
-
   // 跨域安全
   app.enableCors({
-    origin: [
-      /https:\/\/lex-land\.online$/,
-      /https:\/\/lex-land\.io$/,
-      /https:\/\/lex-land\.cloud$/,
-    ],
+    origin: AccessControlAllowOrigin.concat(isProd ? [] : [localClient]),
   });
 
-  const PORT = process.env.PORT || 3001;
+  app.useGlobalPipes(new ValidationPipe());
+
+  // parse body
+  app.use(bodyParser.json({ limit: '5mb' }));
+  app.use(bodyParser.urlencoded({ limit: '5mb', extended: false }));
+
   await app.listen(PORT, () => {
-    logger.info(`[ success ] listening on http://localhost:${PORT}`);
+    logger.info(`\n[ success ] listening on http://localhost:${PORT}\n`);
   });
 }
 

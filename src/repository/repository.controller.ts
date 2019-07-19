@@ -12,7 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CacheService } from '@/src/cache/cache.service';
 import { CreateRepositoryDto } from './dto/create-repo.dto';
 import { RepositoryService } from './repository.service';
-import { ValidatorError } from '@/src/helpers/validation/error';
+import { createValidationError } from '@/src/common/createValidationError';
 
 @Controller('repository')
 @UseGuards(AuthGuard('jwt'))
@@ -30,7 +30,7 @@ export class RepositoryController {
   public async create(@Body() body: CreateRepositoryDto) {
     const sessionUser = await this.cacheService.get('SESSION_USER');
     if (await this.repoService.findOne({ where: { name: body.name } })) {
-      return ValidatorError({
+      return createValidationError({
         name: 'repo name is exist',
       });
     } else {

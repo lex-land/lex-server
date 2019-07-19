@@ -10,9 +10,9 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { LoginDto } from './dto/login.dto';
 import { SessionService } from './session.service';
-import { Token } from '@/src/helpers/decorators/token.decorator';
+import { Token } from '@/src/common/token.decorator';
 import { UserService } from '@/src/user/user.service';
-import { ValidatorError } from '@/src/helpers/validation/error';
+import { createValidationError } from '@/src/common/createValidationError';
 
 @Controller('session')
 export class SessionController {
@@ -28,13 +28,13 @@ export class SessionController {
         return this.sessionService.genToken(session);
       } catch (error) {
         // 密码错误
-        return ValidatorError({
+        return createValidationError({
           password: 'password is not correct',
         });
       }
     } else {
       // 用户不存在
-      return ValidatorError({
+      return createValidationError({
         username: 'username is not exist',
       });
     }

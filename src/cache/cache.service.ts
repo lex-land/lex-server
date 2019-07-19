@@ -1,6 +1,6 @@
 import { CACHE_MANAGER, CacheStore, Inject, Injectable } from '@nestjs/common';
-import constants from '@/src/config/constants';
-import { logger } from '@/src/core/logger';
+import constants from '@/src/common/constants';
+import { logger } from '@/src/common/logger';
 
 @Injectable()
 export class CacheService {

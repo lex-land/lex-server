@@ -1,13 +1,16 @@
 import { Global, Module, CacheModule as NestCacheModule } from '@nestjs/common';
 import { CacheService } from './cache.service';
-import cache from '@/src/config/cache';
+import constants from '../common/constants';
 
 @Global()
 @Module({
   imports: [
     // enable Redis
     // https://docs.nestjs.com/techniques/caching#different-stores
-    NestCacheModule.register(cache),
+    NestCacheModule.register({
+      ttl: constants.TIME['1DAY'], // 1 day
+      max: 50000, // maximum number of items in cache
+    }),
   ],
   providers: [CacheService],
   exports: [CacheService],

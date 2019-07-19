@@ -11,7 +11,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { CacheService } from '@/src/cache/cache.service';
 import { CreateOrgDto } from './dto/create-org.dto';
 import { OrganizationService } from './organization.service';
-import { ValidatorError } from '@/src/helpers/validation/error';
+import { createValidationError } from '@/src/common/createValidationError';
 
 @Controller('organization')
 @UseGuards(AuthGuard('jwt'))
@@ -33,7 +33,7 @@ export class OrganizationController {
         Object.assign(body, { creator: sessionUser, owner: sessionUser }),
       );
     } else {
-      return ValidatorError({ name: 'name is exsit' });
+      return createValidationError({ name: 'name is exsit' });
     }
   }
 
