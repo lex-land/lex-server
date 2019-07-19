@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY ./dist ./dist
 COPY ./package.json ./package.json
+COPY ./tsconfig.base.json ./tsconfig.base.json
 COPY ./tsconfig.json ./tsconfig.json
 COPY ./yarn.lock ./yarn.lock
 
