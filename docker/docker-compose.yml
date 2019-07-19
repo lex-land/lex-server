@@ -27,6 +27,8 @@ services:
       - MYSQL_PASSWD=123456
       - MYSQL_DATABASE=Lex
       - NODE_ENV=production
+      # 必须和lex内环境变量设置为一致的名称
+      - KEYOF_TOKEN=ACCESS_TOKEN
       - PORT=3001
     links:
       - lex-mysql
