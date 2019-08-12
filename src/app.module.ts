@@ -9,6 +9,7 @@ import { OrganizationModule } from './organization/organization.module';
 import { PropertyModule } from './property/property.module';
 import { RepositoryModule } from './repository/repository.module';
 import { SessionModule } from './session/session.module';
+import { StatuscodeModule } from './statuscode/statuscode.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -24,6 +25,7 @@ import { UserModule } from './user/user.module';
     SessionModule,
     MigrationModule,
     CacheModule,
+    StatuscodeModule,
   ],
 })
 export class AppModule {}
