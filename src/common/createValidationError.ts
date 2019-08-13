@@ -9,7 +9,6 @@ export function createValidationResponse(property: string, message: string) {
   return {
     property,
     constraints: { [`${property}Error`]: message },
-    children: [],
   };
 }
 
